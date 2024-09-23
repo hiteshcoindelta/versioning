@@ -5,6 +5,7 @@ const port = 3000;
 app.use(express.json());
 
 let users = [];
+let blogs = [];
 
 // Get all users
 app.get('/users', (req, res) => {
@@ -47,6 +48,22 @@ app.put('/users/:id', (req, res) => {
 app.delete('/users/:id', (req, res) => {
   users = users.filter((u) => u.id != req.params.id);
   res.status(204).send();
+});
+
+// Add a blogs
+app.post('/blogs', (req, res) => {
+  const { title } = req.body;
+  if (!title) {
+    return res.status(400).json({ error: 'Name and email are required.' });
+  }
+  const newBlog = { id: users.length + 1, name, email };
+  blogs.push(newBlog);
+  res.status(201).json(newUser);
+});
+
+// Get all blogs
+app.get('/blogs', (req, res) => {
+  res.json(blogs);
 });
 
 app.listen(port, () => {
